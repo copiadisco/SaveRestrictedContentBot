@@ -117,7 +117,8 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
             if 'CHANNEL' in str(e).split("_") and 'INVALID' in str(e).split("_"):
                 await client.edit_message_text(sender, edit_id, "Have you joined the channel?")
                 return 
-            await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`')
+            await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link} {i}`')
+            time.sleep(60)
             return 
     else:
         edit = await client.edit_message_text(sender, edit_id, "Cloning.")
@@ -126,7 +127,7 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
             await client.copy_message(int(sender), chat, msg_id)
         except Exception as e:
             print(e)
-            return await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`')
+            return await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link} {i}`')
         await edit.delete()
         
 async def get_bulk_msg(userbot, client, sender, msg_link, i):
