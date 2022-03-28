@@ -35,7 +35,7 @@ async def check(userbot, client, link):
         except Exception:
             return False, "Maybe bot is banned from the chat, or your link is invalid!"
             
-async def get_msg(userbot, client, sender, edit_id, msg_link, i):
+async def get_msg(userbot, client, sender, edit_id, msg_link, i, reintent):
     edit = ""
     chat = ""
     msg_id = int(msg_link.split("/")[-1]) + int(i)
@@ -119,6 +119,8 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
                 return 
             await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link} {i}`')
             time.sleep(60)
+            if(reintent<5):
+                await get_msg(userbot, client, sender, edit_id, msg_link, i, reintent+1) 
             return 
     else:
         edit = await client.edit_message_text(sender, edit_id, "Cloning.")
@@ -132,4 +134,4 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
         
 async def get_bulk_msg(userbot, client, sender, msg_link, i):
     x = await client.send_message(sender, "Processing!")
-    await get_msg(userbot, client, sender, x.message_id, msg_link, i) 
+    await get_msg(userbot, client, sender, x.message_id, msg_link, i, 0) 
