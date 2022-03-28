@@ -117,8 +117,8 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i, reintent):
             if 'CHANNEL' in str(e).split("_") and 'INVALID' in str(e).split("_"):
                 await client.edit_message_text(sender, edit_id, "Have you joined the channel?")
                 return 
-            await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link} {i}`')
-            time.sleep(60)
+            await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link} {i} {reintent}`')
+            time.sleep(60*i)
             if(reintent<5):
                 await get_msg(userbot, client, sender, edit_id, msg_link, i, reintent+1) 
             return 
